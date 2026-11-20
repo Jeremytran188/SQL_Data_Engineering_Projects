@@ -79,6 +79,33 @@ By querying across these interconnected tables, I extracted insights about skill
 - 🧱 Infra & tooling: Cassandra and SSIS lead the observed salary ranking at $205,000 and $160,000, respectively. Limited salary disclosure makes these estimates exploratory.
 - 🔥 Big data tools: Apache Spark and Databricks show strong demand, appearing in 1,742 and 1,504 postings, respectively. Databricks also ranks highly on the combined score (0.90).
 
+## Data Quality & Limitations
+
+During the exploratory data analysis and data validation process, two significant data quality issues were identified.
+
+### Missing Salary Currency Metadata
+
+The dataset contains annual and hourly salary information but does not include a currency attribute.
+
+An investigation of salary distributions across different countries suggests that salary values are predominantly denominated in USD. However, this cannot be definitively verified from the source documentation.
+
+**Impact:** International salary comparisons may be inaccurate if multiple currencies are present.
+
+### Geographical Classification Inconsistency
+
+An investigation revealed inconsistencies between the `job_country` and `job_location` columns.
+
+Of the 2,797 job postings containing annual salary information classified under Sudan:
+
+- **2,090 (74.72%)** had United States locations.
+- **689 (24.63%)** were listed as "Anywhere".
+- **17 (0.61%)** had missing location information.
+- **1 (0.04%)** explicitly listed a location in Sudan.
+
+**Impact:** Country-level job market analysis and geographical salary comparisons may produce misleading results.
+
+**Proposed solution:** Implement geographical validation and standardisation rules in a separate transformation layer while preserving the original source data. Ambiguous records should be flagged for further investigation.
+
 ---
 
 ## 💻 SQL Skills Demonstrated
